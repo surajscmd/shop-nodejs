@@ -2,7 +2,7 @@
 FROM node:alpine3.18
 
 # Create app directory
-WORKDIR app
+WORKDIR /app
 
 # Install app dependencies
 COPY package*.json ./
