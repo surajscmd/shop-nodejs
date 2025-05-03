@@ -6,7 +6,7 @@ import cookieparser  from 'cookie-parser'
 const PORT = process.env.PORT || 5000; 
 const app = express(); 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://192.168.42.249:7777", "http://localhost:5174"], 
+  origin: ["http://localhost:5173", "http://192.168.42.249:7777", "http://localhost:5174" ,  "http://16.16.233.45:3000"], 
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], 
   credentials: true, 
 }));
@@ -34,7 +34,7 @@ app.use("/", dashRouter);
 connectDB()
   .then(() => {
     console.log("database connected sucessfully");
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
     });
   })
