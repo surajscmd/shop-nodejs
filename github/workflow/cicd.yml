@@ -1,0 +1,31 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
+      - name: Build Docker Image
+        run: docker build -t sk485/nodejs-shop  .
+      - name: Publish Image to docker hub
+        run: docker push sk485/nodejs-shop:latest 
+ 
+  deploy:
+    needs: build
+    runs-on: self-hosted 
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull sk485/nodejs-shop:latest 
+      - name: Delete old container
+        run: docker rm -f nodejs-app-container  
+      - name: Run Docker Container
+        run : docker run -d -p 3000:3000 --name nodejs-app-container -e DB_CONNECTION_SECRET='${{ secrets.DB_CONNECTION_SECRET }}' -e PORT=5000 -e JWT_SECRET='${{ secrets.JWT_SECRET }}' -e AWS_ACCESS_KEY_ID='${{ secrets.AWS_ACCESS_KEY_ID }}' -e AWS_SECRET_ACCESS_KEY='${{ secrets.AWS_SECRET_ACCESS_KEY }}' -e AWS_REGION='${{ secrets.AWS_REGION }}' -e AWS_BUCKET_NAME='${{ secrets.AWS_BUCKET_NAME }}' sk485/nodejs-shop:latest
