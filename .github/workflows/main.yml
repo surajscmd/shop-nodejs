@@ -28,4 +28,4 @@ jobs:
       - name: Delete old container
         run: sudo docker rm -f nodejs-app-container  
       - name: Run Docker Container
-        run : sudo docker run -d -p 5000:5000 --name nodejs-app-container -e DB_CONNECTION_SECRET='${{ secrets.DB_CONNECTION_SECRET }}' -e PORT=5000 -e JWT_SECRET='${{ secrets.JWT_SECRET }}' -e AWS_ACCESS_KEY_ID='${{ secrets.AWS_ACCESS_KEY_ID }}' -e AWS_SECRET_ACCESS_KEY='${{ secrets.AWS_SECRET_ACCESS_KEY }}' -e AWS_REGION='${{ secrets.AWS_REGION }}' -e AWS_BUCKET_NAME='${{ secrets.AWS_BUCKET_NAME }}' sk485/nodejs-shop:latest
+        run : sudo docker run -d --network app-network --name nodejs-app-container -e DB_CONNECTION_SECRET='${{ secrets.DB_CONNECTION_SECRET }}' -e PORT=5000 -e JWT_SECRET='${{ secrets.JWT_SECRET }}' -e AWS_ACCESS_KEY_ID='${{ secrets.AWS_ACCESS_KEY_ID }}' -e AWS_SECRET_ACCESS_KEY='${{ secrets.AWS_SECRET_ACCESS_KEY }}' -e AWS_REGION='${{ secrets.AWS_REGION }}' -e AWS_BUCKET_NAME='${{ secrets.AWS_BUCKET_NAME }}' sk485/nodejs-shop:latest
