@@ -40,7 +40,6 @@ authRouter.post("/login", async (req, res) => {
         if (!user) {
             throw new Error("Email ID is not registered");
         }
-
         const isPasswordValid = await user.validatePassword(password);
         if (isPasswordValid) {
             const token = await user.getJWT();
