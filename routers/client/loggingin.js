@@ -43,12 +43,12 @@ authRouter.post("/login", async (req, res) => {
         const isPasswordValid = await user.validatePassword(password);
         if (isPasswordValid) {
             const token = await user.getJWT();
-            res.cookie("token", token, {
-              httpOnly: true,          // so JS on client can't access cookie (safer)
-              secure: process.env.NODE_ENV === 'production',  // true only on HTTPS (production)
-              sameSite: 'none',        // required for cross-origin cookies to be sent
-              expires: new Date(Date.now() + 8 * 3600000),
-            });
+            res.cookie('token', token, {
+              httpOnly: true,
+              secure: true,         // HTTPS only, set to false for local dev HTTP
+              sameSite: 'none',     // allow cross-site cookie sharing
+              expires: new Date(Date.now() + 8 * 3600000), // 8 hours
+            });            
             
 
             const { password: _, 
