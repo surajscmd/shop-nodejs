@@ -11,6 +11,7 @@ orderRouter.post("/order", adminAuth, async (req, res) => {
       // Fetch user and populate cart productsconst user = await req.admin.populate("cart.productId");
       // const user = await User.findById(req.admin._id).populate("cart.productId"); 
       const user = await req.admin.populate("cart.productId");
+      
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
