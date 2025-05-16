@@ -5,27 +5,11 @@ import connectDB from "./config/database.js"
 import cookieparser  from 'cookie-parser'
 const PORT = process.env.PORT || 5000; 
 const app = express(); 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://192.168.42.249:7777",
-  "http://localhost:5174",
-  "http://16.16.233.45:3000",
-  "https://shop-admin-rust.vercel.app"
-];
-
 app.use(cors({
-  origin: function(origin, callback) {
-    // allow requests with no origin (like curl, Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-  credentials: true,
+  origin: ["http://localhost:5173", "http://192.168.42.249:7777", "https://shop-admin-rust.vercel.app"], 
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], 
+  credentials: true, 
 }));
-
 
 app.use(express.json());
 app.use(cookieparser())
